@@ -5,36 +5,48 @@ function setDefaultValue(){
   const defaultValue = document.querySelector(".slider-value");
   defaultValue.textContent = `${slider.value} x ${slider.value}`;
 
-  const content = document.createElement("div");
-  content.classList.add(`square`);
-  content.textContent = "1";
+  const defaultContent = document.createElement("div");
+  defaultContent.classList.add(`square${slider.value}`);
+  defaultContent.textContent = "1";
 
-  container.appendChild(content);
+  gridContainer.appendChild(defaultContent);
 
 }
 
 function setGridTable(value){
-  for(let i=0; i<value; i++){
-    const content = document.createElement("div");
-    content.classList.add(`square`);
-    content.textContent = "5";
-  
-    container.appendChild(content);
+  if(value>gridValue){
+    const positiveDiff = value-gridValue;
+    for(let i=0; i<positiveDiff; i++){
+      const addContent = document.createElement("div");
+      addContent.classList.add(`square${++gridValue}`);
+      addContent.textContent = "5";
+      gridContainer.appendChild(addContent);
     }
+    gridValue = value;
+  }
+  else if(value<gridValue){
+    const negativeDiff = gridValue-value;
+    for(let i=0; i<negativeDiff; i++){
+      const removeContent = document.querySelector(`.square${gridValue--}`);
+      removeContent.remove();
+    }
+    gridValue = value;
+  } 
 }
 
 
 const slider = document.querySelector("#slider");
-const container = document.querySelector("#grid-container");
+const gridContainer = document.querySelector("#grid-container");
+let gridValue = slider.value;
 setDefaultValue();
 
 
 
 slider.addEventListener("input", () => {
-  const gridValue = document.querySelector(".slider-value");
-  gridValue.textContent = `${slider.value} x ${slider.value}`;
+  const sliderValue = document.querySelector(".slider-value");
+  sliderValue.textContent = `${slider.value} x ${slider.value}`;
   
-  setGridTable(5);
+  setGridTable(slider.value);
 });
 
 
