@@ -35,10 +35,10 @@ body {
 #grid-container {
     max-width: 600px;
     max-height: 600px;
-    border: 10px solid red;
+    border: 3px solid grey;
     display: grid;
-    grid-template-columns: repeat(auto-fill,64px);
-    grid-template-rows: repeat(auto-fill, 64px);
+    /*grid-template-columns: repeat(6, 100px);
+    grid-template-rows: repeat(6, 100px);*/
 }
 
 .square {
