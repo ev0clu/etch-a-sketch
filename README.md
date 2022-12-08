@@ -7,8 +7,9 @@ In this project, an Etch-A-Sketch browser version has built.
 
 
 ## Features
-- Dynamic grid selection between 16x16 and 64x64 grid
-- User can choose different color to draw
+- Dynamic grid selection and grid table update between 1x1 and 64x64 squares
+- Color picker
+- RGB color selection
 - Erase function
 
 

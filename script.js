@@ -1,5 +1,4 @@
-// --------- Functions declaration --------- //
-
+//--------- Functions declaration  ---------//
 
 function setSliderValue(value){
   const sliderValue = document.querySelector(".slider-value");
@@ -18,17 +17,20 @@ function updateGridTable(value){
   }
 }
 
+// Create RGB random color
 function createRGB(){
   const randomColor = Math.floor(Math.random()*16777215).toString(16);
   return ("#" + randomColor);
 }
 
 
-// Set initial declaration
+//--------- Variable declarations  ---------//
 let isMouseDown = false;
 let gridColor = "black";
 let isColorButtonActive = false;
+let isRainbowActive = false;
 
+//--------- Query Selectors ---------//
 const slider = document.querySelector("#slider");
 const gridContainer = document.querySelector("#grid-container");
 const buttons = document.querySelectorAll("button");
@@ -42,7 +44,7 @@ setSliderValue(defaultSliderValue);
 updateGridTable(defaultSliderValue);
 
 
-// Event listener for slider
+// --------- Event listeners ---------//
 slider.addEventListener("input", () => {
   setSliderValue(slider.value);
   updateGridTable(slider.value);
@@ -59,38 +61,45 @@ colorPalette.addEventListener("input", () => {
 buttons.forEach((button) => {
   button.addEventListener("click", () => {    
     if(button.id == "color"){
+      isColorButtonActive = true;
+      isRainbowActive = false;
       gridColor = colorPalette.value;
       button.setAttribute("style", "background-color: #dfd3c3");
       rainbowButton.removeAttribute("style");
       eraseButton.removeAttribute("style");
-      isColorButtonActive = true;
     }
     else if(button.id == "rainbow"){
+      isColorButtonActive = false;
+      isRainbowActive = true;
       button.setAttribute("style", "background-color: #dfd3c3");
       colorButton.removeAttribute("style");
       eraseButton.removeAttribute("style");
-      isColorButtonActive = false;
     }
     else if(button.id == "erase"){
+      isColorButtonActive = false;
+      isRainbowActive = false;
       gridColor = "";
       button.setAttribute("style", "background-color: #dfd3c3");
       colorButton.removeAttribute("style");
       rainbowButton.removeAttribute("style");
-      isColorButtonActive = false;
     }
     else if(button.id == "clear-all"){
+      isColorButtonActive = false;
+      isRainbowActive = false;
       updateGridTable(slider.value);
       gridColor = "black";
       colorButton.removeAttribute("style");
       rainbowButton.removeAttribute("style");
       eraseButton.removeAttribute("style");
-      isColorButtonActive = false;
     }
   })
 });
 
 // Event listener for mouse down, mouse move and mouse up
 gridContainer.addEventListener("mousedown", (event) => {
+  if( isRainbowActive == true){
+    gridColor = createRGB();
+  }
   // highlight the mouseover target
   event.target.style.background = `${gridColor}`;
   isMouseDown = true;
@@ -99,6 +108,9 @@ gridContainer.addEventListener("mousedown", (event) => {
 
 gridContainer.addEventListener('mousemove', (event) => {
   if (isMouseDown) {
+    if( isRainbowActive == true){
+      gridColor = createRGB();
+    }
     event.target.style.background = `${gridColor}`;
   }
 });
@@ -106,9 +118,3 @@ gridContainer.addEventListener('mousemove', (event) => {
 gridContainer.addEventListener('mouseup', (event) => {
     isMouseDown = false;
 });
-
-
-
-
-
-
