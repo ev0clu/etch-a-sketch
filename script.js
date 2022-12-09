@@ -1,3 +1,16 @@
+//--------- Variable declarations  ---------//
+
+let greyValue = 200;
+let gridColor = "black";
+let gridElements = "";
+let isMouseDown = false;
+let isColorButtonActive = false;
+let isRainbowButtonActive = false;
+let isGreyButtonActive = false;
+
+
+
+
 //--------- Functions declaration  ---------//
 
 function setSliderValue(value){
@@ -64,22 +77,16 @@ function createRGB(){
   const randomColor = Math.floor(Math.random()*16777215).toString(16);
   return ("#" + randomColor);
 }
-// Create Grey color scale
+// Create Grey scale
 function createGreyScale(){
   return `rgb(${greyValue},${greyValue},${greyValue})`;
 }
 
 
-//--------- Variable declarations  ---------//
-let greyValue = 200;
-let gridColor = "black";
-let gridElements = "";
-let isMouseDown = false;
-let isColorButtonActive = false;
-let isRainbowButtonActive = false;
-let isGreyButtonActive = false;
+
 
 //--------- Query Selectors ---------//
+
 const slider = document.querySelector("#slider");
 const gridContainer = document.querySelector("#grid-container");
 const buttons = document.querySelectorAll("button");
@@ -89,12 +96,20 @@ const rainbowButton = document.querySelector("#rainbow");
 const eraseButton = document.querySelector("#erase");
 const greyButton = document.querySelector("#grey");
 
+
+
+
+//--------- Set default values ---------//
+
 const defaultSliderValue = slider.value;
 setSliderValue(defaultSliderValue);
 updateGridTable(defaultSliderValue);
 
 
+
+
 // --------- Event listeners ---------//
+
 slider.addEventListener("input", () => {
   setSliderValue(slider.value);
   updateGridTable(slider.value);
