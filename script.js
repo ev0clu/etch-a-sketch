@@ -15,6 +15,48 @@ function updateGridTable(value){
     gridContainer.setAttribute("style", `grid-template-columns: repeat(${value}, 1fr); grid-template-rows: repeat(${value}, 1fr)`);
     gridContainer.appendChild(addContent);
   }
+  setGridElements();
+}
+
+function setGridElements(){
+  gridElements = document.querySelectorAll(".grid-element");
+  gridElements.forEach((element) => {
+    element.addEventListener("mousedown", (event) => {
+      if(isRainbowButtonActive == true){
+        gridColor = createRGB();
+      }
+      else if(isGreyButtonActive == true){
+        gridColor = createGreyScale();
+        if(greyValue > 0){
+          greyValue = greyValue - 20;
+        }
+      }
+      // highlight the mouseover target
+      event.target.style.background = `${gridColor}`;
+      isMouseDown = true;
+      event.preventDefault();
+    });
+  
+    element.addEventListener("mouseover", (event) => {
+      if(isMouseDown) {
+        if(isRainbowButtonActive == true){
+          gridColor = createRGB();
+        }
+        else if(isGreyButtonActive == true){
+          gridColor = createGreyScale();
+          if(greyValue > 0){
+            greyValue = greyValue - 20;
+          }
+        }
+        event.target.style.background = `${gridColor}`;
+      }
+    });
+  
+    element.addEventListener("mouseup", () => {
+      isMouseDown = false;
+      greyValue = 200;
+    });
+  });
 }
 
 // Create RGB random color
@@ -22,13 +64,20 @@ function createRGB(){
   const randomColor = Math.floor(Math.random()*16777215).toString(16);
   return ("#" + randomColor);
 }
+// Create Grey color scale
+function createGreyScale(){
+  return `rgb(${greyValue},${greyValue},${greyValue})`;
+}
 
 
 //--------- Variable declarations  ---------//
-let isMouseDown = false;
+let greyValue = 200;
 let gridColor = "black";
+let gridElements = "";
+let isMouseDown = false;
 let isColorButtonActive = false;
-let isRainbowActive = false;
+let isRainbowButtonActive = false;
+let isGreyButtonActive = false;
 
 //--------- Query Selectors ---------//
 const slider = document.querySelector("#slider");
@@ -38,6 +87,7 @@ const colorPalette = document.querySelector("#color-palette");
 const colorButton = document.querySelector("#color");
 const rainbowButton = document.querySelector("#rainbow");
 const eraseButton = document.querySelector("#erase");
+const greyButton = document.querySelector("#grey");
 
 const defaultSliderValue = slider.value;
 setSliderValue(defaultSliderValue);
@@ -62,59 +112,52 @@ buttons.forEach((button) => {
   button.addEventListener("click", () => {    
     if(button.id == "color"){
       isColorButtonActive = true;
-      isRainbowActive = false;
+      isRainbowButtonActive = false;
+      isGreyButtonActive = false;
       gridColor = colorPalette.value;
       button.setAttribute("style", "background-color: #dfd3c3");
       rainbowButton.removeAttribute("style");
       eraseButton.removeAttribute("style");
+      greyButton.removeAttribute("style");
     }
     else if(button.id == "rainbow"){
       isColorButtonActive = false;
-      isRainbowActive = true;
+      isRainbowButtonActive = true;
+      isGreyButtonActive = false;
       button.setAttribute("style", "background-color: #dfd3c3");
       colorButton.removeAttribute("style");
+      eraseButton.removeAttribute("style");
+      greyButton.removeAttribute("style");
+    }
+    else if(button.id == "grey"){
+      isColorButtonActive = false;
+      isRainbowButtonActive = false;
+      isGreyButtonActive = true;
+      button.setAttribute("style", "background-color: #dfd3c3");
+      colorButton.removeAttribute("style");
+      rainbowButton.removeAttribute("style");
       eraseButton.removeAttribute("style");
     }
     else if(button.id == "erase"){
       isColorButtonActive = false;
-      isRainbowActive = false;
+      isRainbowButtonActive = false;
+      isGreyButtonActive = false;
       gridColor = "";
       button.setAttribute("style", "background-color: #dfd3c3");
       colorButton.removeAttribute("style");
       rainbowButton.removeAttribute("style");
+      greyButton.removeAttribute("style");
     }
     else if(button.id == "clear-all"){
       isColorButtonActive = false;
-      isRainbowActive = false;
+      isRainbowButtonActive = false;
+      isGreyButtonActive = false;
       updateGridTable(slider.value);
       gridColor = "black";
       colorButton.removeAttribute("style");
       rainbowButton.removeAttribute("style");
+      greyButton.removeAttribute("style");
       eraseButton.removeAttribute("style");
     }
   })
-});
-
-// Event listener for mouse down, mouse move and mouse up
-gridContainer.addEventListener("mousedown", (event) => {
-  if( isRainbowActive == true){
-    gridColor = createRGB();
-  }
-  // highlight the mouseover target
-  event.target.style.background = `${gridColor}`;
-  isMouseDown = true;
-});
-
-
-gridContainer.addEventListener('mousemove', (event) => {
-  if (isMouseDown) {
-    if( isRainbowActive == true){
-      gridColor = createRGB();
-    }
-    event.target.style.background = `${gridColor}`;
-  }
-});
-
-gridContainer.addEventListener('mouseup', (event) => {
-    isMouseDown = false;
 });
