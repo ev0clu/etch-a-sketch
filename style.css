@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&family=Roboto&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&family=Roboto&display=swap');
 
 /* Reset style */
 * {
@@ -87,4 +87,20 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 10px;
+}
+
+.reflink {
+    width: 25px;
+    text-align: center;
+}
+
+.github-img {
+    width: 20px;
+    height: 20px;
+}
+
+.github-img:hover {
+    width: 25px;
+    height: 25px;
 }
